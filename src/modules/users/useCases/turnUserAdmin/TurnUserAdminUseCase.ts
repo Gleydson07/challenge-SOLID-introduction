@@ -9,7 +9,20 @@ class TurnUserAdminUseCase {
   constructor(private usersRepository: IUsersRepository) {}
 
   execute({ user_id }: IRequest): User {
-    // Complete aqui
+    const user = this.usersRepository.findById(user_id);
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    Object.assign(user, {
+      ...user,
+      admin: true,
+    });
+
+    this.usersRepository.turnAdmin(user);
+
+    return this.usersRepository.turnAdmin(user);
   }
 }
 
